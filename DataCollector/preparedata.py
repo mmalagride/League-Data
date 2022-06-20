@@ -27,12 +27,12 @@ def dict_factory(cursor, row):
     return d
 
 def LoadFreshData(sheetname):
-    print("Loading Game data into Googlesheets...")
+    logging.info("Loading Game data into Googlesheets...")
     DW = ConnectDB()
-    gc = pygsheets.authorize(service_file='lgb-kpi-94ff2e9b67d4.json')
-    dataframe = pd.read_sql('SELECT * FROM league.fullgamedetails', con=DW['connection'])
+    gc = pygsheets.authorize(service_file=os.path.dirname(os.path.dirname(__file__)) + "\\Secrets\\lgb-kpi-94ff2e9b67d4.json")
+    dataframe = pd.read_sql('SELECT * FROM fullgamedetails', con=DW['connection'])
     sh = gc.open(sheetname)
     wks = sh[0]
     wks.set_dataframe(dataframe,(1,1))
-    print("Load complete! Dashboard is now up-to-date!")
+    logging.info("Load complete! Dashboard is now up-to-date!")
 

@@ -14,7 +14,7 @@ def getRiotApi():
 api_key = getRiotApi()
 weeksAgo = 2
 maxGames = 200
-friendinfo.CollectFriendInfo(api_key)
-gameids.CollectGameIds(api_key, weeksAgo)
-gameinfo.CollectGameData(api_key, maxGames)
-#preparedata.LoadFreshData('TheBoys 2022')
+#friendinfo.CollectFriendInfo(api_key)
+#gameids.CollectGameIds(api_key, weeksAgo)
+#gameinfo.CollectGameData(api_key, maxGames)
+preparedata.LoadFreshData('Data Import')
