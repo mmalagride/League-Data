@@ -3,33 +3,46 @@ import pyodbc
 import json
 import time
 import unidecode
+import logging
+import sqlite3
+import os
 
-def Connect():
-    ReturnObject = dict()
-    connection = pyodbc.connect('DRIVER=MySQL ODBC 8.0 ANSI Driver;''SERVER=localhost;''DATABASE=league;''UID=root;''PWD=root;''charset=utf8mb4;')
-    cursor     = connection.cursor()
-    ReturnObject['connection'] = connection
-    ReturnObject['cursor']     = cursor
-    return ReturnObject
+def ConnectDB():
+        logging.info("Establishing Connection to SQL DB...")
+        ReturnObject = dict()
+        connection = sqlite3.connect(os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "\\Database\\db.db")
+        connection.row_factory = dict_factory
+        cursor     = connection.cursor()
+        ReturnObject['connection'] = connection
+        ReturnObject['cursor']     = cursor
+        logging.info("Connection Successful!")
+        return ReturnObject
+
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
 def CollectGameData(api_key, games):
-    DW = Connect()
+    DW = ConnectDB()
     root_url = 'https://americas.api.riotgames.com'
-    sql_insert = "INSERT INTO gameinfo Values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-    DW['cursor'].execute("SELECT gameids.gameid FROM league.gameids order by gameids.gameid desc limit %s;" % games)
+    sql_insert = "INSERT INTO 'data.gameinfo' Values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+    DW['cursor'].execute("SELECT gameid FROM 'data.gameids' order by gameid desc limit %s;" % games)
     gameids = DW['cursor'].fetchall()
     for gameid in gameids:
         time.sleep(1)
-        response = requests.get('%s/lol/match/v5/matches/%s?api_key=%s' % (root_url,gameid[0],api_key))
+        response = requests.get('%s/lol/match/v5/matches/%s?api_key=%s' % (root_url,gameid['gameid'],api_key))
         while response.status_code != 200:
             print('Maximum API requests made, please wait...')
             time.sleep(60)
-            response = requests.get('%s/lol/match/v5/matches/%s?api_key=%s' % (root_url,gameid[0],api_key))
+            response = requests.get('%s/lol/match/v5/matches/%s?api_key=%s' % (root_url,gameid['gameid'],api_key))
         game_info = response.json()
         gameId = game_info['metadata']['matchId']
         gameDuration = game_info['info']['gameDuration']
         gameStartTime = game_info['info']['gameStartTimestamp']
         gameMode = game_info['info']['queueId']
-        if game_info['info']['queueId'] in [700,440,420,400]:
+        if game_info['info']['queueId'] in [700,440,420,400]: #fact.queueinfo -> correlates to 5v5 rank/unranked games
             print('Inserting data for Game: ' + str(gameId))
             #End of Game Personal Stats
             for i in range(10):

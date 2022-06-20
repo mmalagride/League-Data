@@ -1,4 +1,4 @@
-CREATE TABLE `gameinfo` (
+CREATE TABLE `data.gameinfo` (
   `gameId` varchar(25) NOT NULL,
   `gameDuration` int(11) DEFAULT NULL,
   `gameStartTime` bigint(20) DEFAULT NULL,
@@ -131,4 +131,4 @@ CREATE TABLE `gameinfo` (
   `earlySurrender` int(11) DEFAULT NULL,
   `lateSurrender` int(11) DEFAULT NULL,
   PRIMARY KEY (`gameId`,`playerName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
