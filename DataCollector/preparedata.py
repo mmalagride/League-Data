@@ -29,7 +29,7 @@ def dict_factory(cursor, row):
 def LoadFreshData(sheetname):
     logging.info("Loading Game data into Googlesheets...")
     DW = ConnectDB()
-    gc = pygsheets.authorize(service_file=os.path.dirname(os.path.dirname(__file__)) + "\\Secrets\\lgb-kpi-94ff2e9b67d4.json")
+    gc = pygsheets.authorize(service_file=os.path.dirname(os.path.dirname(__file__)) + "\\Secrets\\google-api-key.json")
     dataframe = pd.read_sql('SELECT * FROM fullgamedetails', con=DW['connection'])
     sh = gc.open(sheetname)
     wks = sh[0]

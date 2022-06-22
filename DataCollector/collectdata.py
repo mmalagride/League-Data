@@ -11,10 +11,12 @@ def getRiotApi():
     content = json.loads(key.read())
     return content['api_key']
 
-api_key = getRiotApi()
-weeksAgo = 2
-maxGames = 200
-#friendinfo.CollectFriendInfo(api_key)
-#gameids.CollectGameIds(api_key, weeksAgo)
-#gameinfo.CollectGameData(api_key, maxGames)
-preparedata.LoadFreshData('Data Import')
+if __name__ == "__main__":
+        logging.basicConfig(level=logging.INFO)
+        api_key = getRiotApi()
+        weeksAgo = 1
+        maxGames = 100
+        friendinfo.CollectFriendInfo(api_key)
+        gameids.CollectGameIds(api_key, weeksAgo)
+        gameinfo.CollectGameData(api_key, maxGames)
+        preparedata.LoadFreshData('Data Import')
