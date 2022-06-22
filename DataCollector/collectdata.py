@@ -2,8 +2,10 @@ import friendinfo
 import gameids
 import gameinfo
 import preparedata
+import championkill
 import os
 import json
+import logging
 
 def getRiotApi():
     keyPath = os.path.dirname(os.path.dirname(__file__)) + "\\Secrets\\riot-api-key.json"
@@ -15,8 +17,9 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.INFO)
         api_key = getRiotApi()
         weeksAgo = 1
-        maxGames = 100
-        friendinfo.CollectFriendInfo(api_key)
-        gameids.CollectGameIds(api_key, weeksAgo)
-        gameinfo.CollectGameData(api_key, maxGames)
+        maxGames = 10000
+        #friendinfo.CollectFriendInfo(api_key)
+        #gameids.CollectGameIds(api_key, weeksAgo)
+        #gameinfo.CollectGameData(api_key, maxGames)
+        #championkill.CollectChampionKill(api_key, maxGames)
         preparedata.LoadFreshData('Data Import')
