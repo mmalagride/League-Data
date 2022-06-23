@@ -16,10 +16,10 @@ def getRiotApi():
 if __name__ == "__main__":
         logging.basicConfig(level=logging.INFO)
         api_key = getRiotApi()
-        weeksAgo = 1
-        maxGames = 10000
-        #friendinfo.CollectFriendInfo(api_key)
-        #gameids.CollectGameIds(api_key, weeksAgo)
-        #gameinfo.CollectGameData(api_key, maxGames)
-        #championkill.CollectChampionKill(api_key, maxGames)
-        preparedata.LoadFreshData('Data Import')
+        weeksAgo = 50
+        maxGames = 1000000
+        friendinfo.CollectFriendInfo(api_key)
+        gameids.CollectGameIds(api_key, weeksAgo)
+        gameinfo.CollectGameData(api_key, maxGames)
+        championkill.CollectChampionKill(api_key, maxGames)
+        preparedata.LoadFreshData('dataStudio')
