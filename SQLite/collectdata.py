@@ -17,7 +17,7 @@ def getRiotApi():
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     api_key = getRiotApi()
-    weeksAgo = 1
+    weeksAgo = 65
     maxGames = 1000000
     database.refreshDatabase()
     friendinfo.CollectFriendInfo(api_key)

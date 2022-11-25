@@ -25,7 +25,7 @@ This will need to be updated daily, as it times-out after 24hours. Once the new 
 4. Create the relevant workbooks in google sheets/google drive: https://docs.google.com/spreadsheets/  
    * (Ensure each workbook has ample row counts for large data sets -> around 100,000+ should be sufficient)  
 5. Share each workbook to the service account as an editor (email found in google-api-key)  
-
+##### (Accont huntale1996@gmail.com)
 ### All data to be visualized in DataStudio/LookerStudio at: https://datastudio.google.com/  
 
 Next create a list of playernames that you'd like to collect data on then save this as: /Secrets/summoners.txt  
