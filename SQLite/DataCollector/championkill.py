@@ -9,15 +9,15 @@ import os
 import sys
 
 def ConnectDB():
-        logging.info("Establishing Connection to SQL DB...")
-        ReturnObject = dict()
-        connection = sqlite3.connect(os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "\\Database\\db.db")
-        connection.row_factory = dict_factory
-        cursor     = connection.cursor()
-        ReturnObject['connection'] = connection
-        ReturnObject['cursor']     = cursor
-        logging.info("Connection Successful!")
-        return ReturnObject
+    logging.info("Establishing Connection to SQL DB...")
+    ReturnObject = dict()
+    connection = sqlite3.connect(os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "\\db.db")
+    connection.row_factory = dict_factory
+    cursor     = connection.cursor()
+    ReturnObject['connection'] = connection
+    ReturnObject['cursor']     = cursor
+    logging.info("Connection Successful!")
+    return ReturnObject
 
 def dict_factory(cursor, row):
     d = {}
@@ -32,12 +32,18 @@ def CollectChampionKill(api_key, games):
     DW['cursor'].execute("SELECT distinct gameid FROM 'fullgamedetails' order by gameid desc limit %s;" % games)
     gameids = DW['cursor'].fetchall()
     for gameid in gameids:
-        time.sleep(1)
-        response = requests.get('%s/lol/match/v5/matches/%s/timeline?api_key=%s' % (root_url,gameid['gameId'],api_key))
-        while response.status_code != 200:
-            print('Maximum API requests made, please wait...')
-            time.sleep(60)
-            response = requests.get('%s/lol/match/v5/matches/%s?api_key=%s' % (root_url,gameid['gameId'],api_key))
+        while True:
+            try:
+                logging.info('Requesting Game Event Info list from Riot API...')
+                response = requests.get('%s/lol/match/v5/matches/%s/timeline?api_key=%s' % (root_url,gameid['gameId'],api_key))
+                if response.status_code not in (429, 404):
+                    break
+                else:
+                    logging.warning('Maximum API requests made, please wait...')
+                    time.sleep(60) 
+            except:
+                logging.warning('Maximum API requests made, please wait...')
+                time.sleep(60)
         game_info = response.json()
         participants = {}
         for player in game_info['info']['participants']:
@@ -76,3 +82,4 @@ def CollectChampionKill(api_key, games):
                         DW['connection'].commit()
                     except sqlite3.IntegrityError as err:
                         logging.info(err.args[0].split(':')[0] +" event information likely captured.")
+        logging.info('Game Event Info list captured!')

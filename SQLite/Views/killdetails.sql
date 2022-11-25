@@ -19,3 +19,4 @@ left join 'data.friendinfo' ai1 on ck.event_assist1 = ai1.summoner_puuid
 left join 'data.friendinfo' ai2 on ck.event_assist2 = ai2.summoner_puuid
 left join 'data.friendinfo' ai3 on ck.event_assist3 = ai3.summoner_puuid
 left join 'data.friendinfo' ai4 on ck.event_assist4 = ai4.summoner_puuid
+where (ki.summoner_name is not Null) or (vi.summoner_name is not Null) or (ai1.summoner_name is not Null) or (ai2.summoner_name is not Null) or (ai3.summoner_name is not Null) or (ai4.summoner_name is not Null)

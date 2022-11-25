@@ -1,4 +1,5 @@
-Database/db.db
-Database/db.db-journal
-/DataCollector/__pycache__
+/SQLite/db.db
+/SQLite/db.db-journal
+/SQLite/__pycache__
+/MySQL/__pycache__
 /Secrets/

@@ -6,15 +6,15 @@ import sqlite3
 import os
 
 def ConnectDB():
-        logging.info("Establishing Connection to SQL DB...")
-        ReturnObject = dict()
-        connection = sqlite3.connect(os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "\\Database\\db.db")
-        connection.row_factory = dict_factory
-        cursor     = connection.cursor()
-        ReturnObject['connection'] = connection
-        ReturnObject['cursor']     = cursor
-        logging.info("Connection Successful!")
-        return ReturnObject
+    logging.info("Establishing Connection to SQL DB...")
+    ReturnObject = dict()  
+    connection = sqlite3.connect(os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "\\db.db")
+    connection.row_factory = dict_factory
+    cursor     = connection.cursor()
+    ReturnObject['connection'] = connection
+    ReturnObject['cursor']     = cursor
+    logging.info("Connection Successful!")
+    return ReturnObject
 
 def dict_factory(cursor, row):
     d = {}
@@ -29,9 +29,10 @@ def CollectFriendInfo(api_key):
     sql = "INSERT INTO 'data.friendinfo' Values(?,?,?,?,?,?)"
     sql_update = "UPDATE 'data.friendinfo' SET summoner_accountid=?,summoner_level=?,summoner_image=?,summoner_puuid=?,summoner_lastupdate=? WHERE summoner_name=?"
     #Main
-    file = open(os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "\\Secrets\\summoners.txt", "r")
+    file = open(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))) + "\\Secrets\\summoners.txt", "r")
     summoners = [line.strip() for line in file.readlines()]
     for summoner in summoners:
+        logging.info('Requesting PlayerInfo from Riot API...')
         summoner_info = requests.get('%s/lol/summoner/v4/summoners/by-name/%s?api_key=%s' % (root_url,summoner,api_key)).json()
         summoner_key = summoner_info['accountId']
         summoner_name = summoner_info['name']
@@ -44,10 +45,10 @@ def CollectFriendInfo(api_key):
         try:        
             DW['cursor'].execute(sql,input)
             DW['connection'].commit()
-            print('New Summoner info added for: ' + summoner_name)
+            logging.info('New Summoner info added for: ' + summoner_name)
         except:        
             updater = (summoner_key,summoner_level,summoner_image,summoner_puuid,summoner_lastupdate,summoner_name)
             DW['cursor'].execute(sql_update,updater)
             DW['connection'].commit()
-            print('Updated Summoner info added for: ' + summoner_name)
+            logging.info('Updated Summoner info added for: ' + summoner_name)
 

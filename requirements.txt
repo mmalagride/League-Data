@@ -5,3 +5,4 @@ requests
 json
 unidecode
 pygsheets
+mysql-connector-python

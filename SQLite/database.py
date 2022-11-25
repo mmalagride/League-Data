@@ -21,7 +21,7 @@ def ConnectDB():
         logging.info("Connection Successful!")
         return ReturnObject
 
-def initDB():
+def initDB(DW):
     logging.info("Creating Fact Tables...")
     for query in os.listdir(os.path.dirname(__file__) + "\\ReferenceTables"):
         if query.endswith('.sql'):
@@ -43,8 +43,7 @@ def initDB():
             try:
                 DW['cursor'].execute(SQLfile)
             except:
-                DW['cursor'].execute("DROP TABLE '%s'" % ("data." + query[:query.find(".")]))
-                DW['cursor'].execute(SQLfile)
+                pass
     logging.info("Data Tables created!")
 
     logging.info("Creating Views...")
@@ -55,18 +54,18 @@ def initDB():
             try:
                 DW['cursor'].execute(SQLfile)
             except:
-                DW['cursor'].execute("DROP VIEW 'fullgamedetails'")
+                DW['cursor'].execute("DROP VIEW '%s'" % query[:query.find(".")])
                 DW['cursor'].execute(SQLfile)
     logging.info("Views created!")
 
-def populateDB():
+def populateDB(DW):
     logging.info("Populating Fact Tables with reference keys...")
     version = getLatestVersion()
-    getChampionFacts(version)
-    getItemFacts(version)
-    getQueueFacts()
-    getRuneFacts(version)
-    getSummonderSpellFacts(version)
+    getChampionFacts(version, DW)
+    getItemFacts(version, DW)
+    getQueueFacts(DW)
+    getRuneFacts(version, DW)
+    getSummonderSpellFacts(version, DW)
     logging.info("Reference Tables ready.")
 
 def getLatestVersion():
@@ -74,7 +73,7 @@ def getLatestVersion():
     endpointInfo = requests.get(endpoint).json()
     return endpointInfo[0]
 
-def getChampionFacts(version):
+def getChampionFacts(version, DW):
     endpoint = "http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/champion.json" % version
     endpointInfo = requests.get(endpoint).json()
     for key, value in endpointInfo['data'].items():
@@ -87,7 +86,7 @@ def getChampionFacts(version):
         DW['connection'].commit()
     logging.info('Champion Facts updated!')
 
-def getItemFacts(version):
+def getItemFacts(version, DW):
     endpoint = "http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/item.json" % version
     endpointInfo = requests.get(endpoint).json()
     for key in endpointInfo['data']:
@@ -109,7 +108,7 @@ def getItemFacts(version):
         DW['connection'].commit()     
     logging.info('Item Facts updated!')  
 
-def getQueueFacts():
+def getQueueFacts(DW):
     endpoint = "http://static.developer.riotgames.com/docs/lol/queues.json"
     endpointInfo = requests.get(endpoint).json()   
     for value in endpointInfo:
@@ -124,7 +123,7 @@ def getQueueFacts():
             DW['connection'].commit()
     logging.info('Queue Facts updated!')
 
-def getRuneFacts(version):
+def getRuneFacts(version, DW):
     endpoint = "http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/runesReforged.json" % version
     endpointInfo = requests.get(endpoint).json()
     for tree in endpointInfo:
@@ -141,7 +140,7 @@ def getRuneFacts(version):
                 DW['connection'].commit()
     logging.info('Rune Facts updated!')
 
-def getSummonderSpellFacts(version):
+def getSummonderSpellFacts(version, DW):
     endpoint = "http://ddragon.leagueoflegends.com/cdn/%s/data/en_US/summoner.json" % version
     endpointInfo = requests.get(endpoint).json()  
     for value in  endpointInfo['data']:
@@ -153,8 +152,8 @@ def getSummonderSpellFacts(version):
         DW['connection'].commit()
     logging.info('SummonerSpell Facts updated!')
 
-if __name__ == "__main__":
-        logging.basicConfig(level=logging.INFO)
-        DW = ConnectDB()
-        initDB()
-        populateDB()
+def refreshDatabase():
+    logging.basicConfig(level=logging.INFO)
+    DW = ConnectDB()
+    initDB(DW)
+    populateDB(DW)
