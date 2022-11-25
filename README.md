@@ -11,17 +11,17 @@ This will need to be updated daily, as it times-out after 24hours. Once the new 
 - (Key-Value pair of "api-key": "GENERATED_KEY")  
 
 Before utilizing the google end of the project the following steps must be followed:  
-- 1. Create a Project here: https://console.cloud.google.com/  
-- 2. Next the following API's need to be enabled:  
-- - Google Drive: https://console.cloud.google.com/apis/api/drive.googleapis.com/  
-- - Google Sheets: https://console.cloud.google.com/marketplace/product/google/sheets.googleapis.com/  
-- 3. Service Account must be created: https://console.cloud.google.com/apis/credentials  
-- - a. + Create Credentials -> Service Account -> Fill in whatever name/details  
-- - b. Service Account -> Edit Service Account -> Keys -> Add Key -> Create New -> Save as JSON  
-- - c. Save this as /Secrets/google-api-key.json  
-- 4. Create the relevant workbooks in google sheets/google drive: https://docs.google.com/spreadsheets/  
-- - (Ensure each workbook has ample row counts for large data sets -> around 100,000+ should be sufficient)  
-- 5. Share each workbook to the service account as an editor (email found in google-api-key)  
+1. Create a Project here: https://console.cloud.google.com/  
+2. Next the following API's need to be enabled:  
+   * Google Drive: https://console.cloud.google.com/apis/api/drive.googleapis.com/  
+   * Google Sheets: https://console.cloud.google.com/marketplace/product/google/sheets.googleapis.com/  
+3. Service Account must be created: https://console.cloud.google.com/apis/credentials  
+   * a. + Create Credentials -> Service Account -> Fill in whatever name/details  
+   * b. Service Account -> Edit Service Account -> Keys -> Add Key -> Create New -> Save as JSON  
+   * c. Save this as /Secrets/google-api-key.json  
+4. Create the relevant workbooks in google sheets/google drive: https://docs.google.com/spreadsheets/  
+   * (Ensure each workbook has ample row counts for large data sets -> around 100,000+ should be sufficient)  
+5. Share each workbook to the service account as an editor (email found in google-api-key)  
 
 All data to be visualized in google DataStudio/LookerStudio, with the current final product at: https://datastudio.google.com/  
 
