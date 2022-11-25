@@ -1,4 +1,4 @@
-### League-Data
+# League-Data
 
 Data collection scripts for collecting information on list of players through the Riot API.  
 As well as database setup to initialize a MySQL storage solution, or SQLite storage.  
@@ -10,7 +10,7 @@ A fresh Riot API will be required to run most of the scripts found here: https:/
 This will need to be updated daily, as it times-out after 24hours. Once the new key is generated save the file here: /Secrets/riot-api-key.json  
 - (Key-Value pair of "api-key": "GENERATED_KEY")  
 
-Before utilizing the google end of the project the following steps must be followed:  
+## Before utilizing the google end of the project the following steps must be followed:  
 1. Create a Project here: https://console.cloud.google.com/  
 2. Next the following API's need to be enabled:  
    * Google Drive: https://console.cloud.google.com/apis/api/drive.googleapis.com/  
@@ -26,8 +26,11 @@ Before utilizing the google end of the project the following steps must be follo
 All data to be visualized in google DataStudio/LookerStudio, with the current final product at: https://datastudio.google.com/  
 
 Next create a list of playernames that you'd like to collect data on then save this as /Secrets/summoners.txt  
-- (Write the file in the format:  Name1   ) (New-line seperated)  
-    +     +     +     +     +     +     +     +     + Name2  
-    +     +     +     +     +     +     +     +     + Name3  
+Write the file in the format:
+| name1 |
+| name2 |
+| name3 |
+| etc.. |
+
 
 Finally the begin running the data collection scripts run either of the "collectdata.py" in the database folder of choice.  
