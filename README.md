@@ -29,7 +29,7 @@ This will need to be updated daily, as it times-out after 24hours. Once the new 
 ### All data to be visualized in DataStudio/LookerStudio at: https://datastudio.google.com/  
 
 Next create a list of playernames that you'd like to collect data on then save this as: /Secrets/summoners.txt  
-Write the file in the format:
+Write the file in the format:  
 | Name1 |
 | Name2 |
 | Etc.. |
