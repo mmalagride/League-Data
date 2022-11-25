@@ -2,4 +2,3 @@
 /SQLite/db.db-journal
 /SQLite/__pycache__
 /MySQL/__pycache__
-/Secrets/*
