@@ -1,14 +1,14 @@
 ### League-Data
 
-# Data collection scripts for collecting information on list of players through the Riot API.
-# As well as database setup to initialize a MySQL storage solution, or SQLite storage.
+Data collection scripts for collecting information on list of players through the Riot API.
+As well as database setup to initialize a MySQL storage solution, or SQLite storage.
 
-# A MySQL DB can be installed here: https://dev.mysql.com/downloads/installer/
-# However for beginners I recommend just going with the SQLite configuration as its easier to get started.
+A MySQL DB can be installed here: https://dev.mysql.com/downloads/installer/
+However for beginners I recommend just going with the SQLite configuration as its easier to get started.
 
-# A fresh Riot API will be required to run most of the scripts found here: https://developer.riotgames.com/
-# This will need to be updated daily, as it times-out after 24hours. Once the new key is generated save the file here: /Secrets/riot-api-key.json
-#     (Key-Value pair of "api-key": "GENERATED_KEY")
+A fresh Riot API will be required to run most of the scripts found here: https://developer.riotgames.com/
+This will need to be updated daily, as it times-out after 24hours. Once the new key is generated save the file here: /Secrets/riot-api-key.json
+    (Key-Value pair of "api-key": "GENERATED_KEY")
 
 Before utilizing the google end of the project the following steps must be followed:
     1. Create a Project here: https://console.cloud.google.com/
