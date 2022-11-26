@@ -18,11 +18,11 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     api_key = getRiotApi()
     db = 'newdb'
-    weeksAgo = 5
-    maxGames = 1000000
+    daysAgo = 1
+    maxGames = 100
     database.refreshDatabase(db)
     friendinfo.CollectFriendInfo(api_key, db)
-    gameids.CollectGameIds(api_key, db, weeksAgo)
+    gameids.CollectGameIds(api_key, db, daysAgo)
     gameinfo.CollectGameData(api_key, db, maxGames)
     championkill.CollectChampionKill(api_key, db, maxGames)
     preparedata.LoadFreshData('MySQL', db)

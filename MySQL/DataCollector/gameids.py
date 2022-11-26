@@ -15,19 +15,18 @@ def ConnectDB(db):
     logging.info("Connection Successful!")
     return ReturnObject
 
-def CollectGameIds(api_key, db, weeksAgo):        
+def CollectGameIds(api_key, db, daysAgo):        
     end_date = int(round(time.time()))
     unix_day  = 86400
-    unix_week = (7*unix_day)
-    start_date = end_date - (weeksAgo * (unix_week))
+    start_date = end_date - (daysAgo * (unix_day))
     root_url = 'https://americas.api.riotgames.com'
     DW = ConnectDB(db)
     sql = "INSERT INTO gameids Values(?)"
     #Main
     DW['cursor'].execute('SELECT summoner_puuid FROM friendinfo order by summoner_puuid')
     accountids = DW['cursor'].fetchall()
-    for query_end_date in range(end_date, start_date, -unix_week):
-        query_start_date = query_end_date - unix_week
+    for query_end_date in range(end_date, start_date, -unix_day):
+        query_start_date = query_end_date - unix_day
         if query_start_date < start_date:
             query_start_date = start_date   
         for accountid in accountids:
