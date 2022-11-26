@@ -26,7 +26,7 @@ def CollectGameData(api_key, db, games):
     for gameid in gameids:
         while True:
             try:
-                logging.info("Requesting Game information fromm Riot API...") 
+                logging.info("Requesting Game information from Riot API...") 
                 response = requests.get('%s/lol/match/v5/matches/%s?api_key=%s' % (root_url,gameid[0],api_key))
                 if response.status_code not in (429, 404):
                     break
