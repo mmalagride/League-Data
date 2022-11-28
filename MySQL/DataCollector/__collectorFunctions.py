@@ -6,7 +6,7 @@ import pyodbc
 import time
 
 def getRiotApi():
-    keyPath = os.path.dirname(os.path.dirname(__file__)) + "\\Secrets\\riot-api-key.json"
+    keyPath =  os.path.dirname(os.path.dirname(os.path.dirname(__file__))) + "\\Secrets\\riot-api-key.json"
     key = open(keyPath, 'r')
     content = json.loads(key.read())
     return content['api_key']

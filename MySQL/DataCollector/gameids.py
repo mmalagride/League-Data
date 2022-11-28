@@ -1,4 +1,4 @@
-import __collectorFunctions
+from DataCollector import __collectorFunctions
 import logging
 import os
 import unidecode
