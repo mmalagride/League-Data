@@ -1,46 +1,16 @@
-import requests
-import pyodbc
-import json
-import time
-import unidecode
+import __collectorFunctions
 import logging
-import MySQLdb
 import os
-import sys
-
-def ConnectDB(db):
-    logging.info("Establishing Connection to SQL DB...")
-    ReturnObject = dict()
-    connection = pyodbc.connect('DRIVER=MySQL ODBC 8.0 ANSI Driver;''SERVER=localhost;''DATABASE=%s;''UID=root;''PWD=root;''charset=utf8mb4;' % db)
-    cursor     = connection.cursor()
-    ReturnObject['connection'] = connection
-    ReturnObject['cursor']     = cursor
-    logging.info("Connection Successful!")
-    return ReturnObject
-
-def PersistentRequest(endpoint):
-    while True:
-        try:
-            logging.info("Requesting information from Riot API...") 
-            response = requests.get(endpoint,headers={"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"},timeout=2)
-            if response.status_code not in (429, 404):
-                break
-            else:
-                logging.warning('Maximum API requests made, please wait...')
-                time.sleep(90)
-        except:
-            logging.warning('Server is taking a long time to respond...')
-    game_info = response.json()
-    return game_info
+import unidecode
 
 def CollectChampionKill(api_key, db, games):
-    DW = ConnectDB(db)
+    DW = __collectorFunctions.ConnectDB(db)
     sql = "INSERT INTO championkill Values(?,?,?,?,?,?,?,?,?,?,?,?)"
     root_url = 'https://americas.api.riotgames.com'
     DW['cursor'].execute("SELECT distinct gameid FROM fullgamedetails order by gameid desc limit %s;" % games)
     gameids = DW['cursor'].fetchall()
     for gameid in gameids:
-        game_info = PersistentRequest('%s/lol/match/v5/matches/%s/timeline?api_key=%s' % (root_url,gameid[0],api_key))
+        game_info = __collectorFunctions.PersistentRequest('%s/lol/match/v5/matches/%s/timeline?api_key=%s' % (root_url,gameid[0],api_key))
         participants = {}
         for player in game_info['info']['participants']:
             participants[player['participantId']] = player['puuid']

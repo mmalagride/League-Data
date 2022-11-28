@@ -3,6 +3,7 @@ from DataCollector import gameids
 from DataCollector import gameinfo
 from DataCollector import preparedata
 from DataCollector import championkill
+from DataCollector import __collectorFunctions
 import database
 import os
 import json
@@ -16,10 +17,10 @@ def getRiotApi():
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    api_key = getRiotApi()
-    db = 'newdb'
-    daysAgo = 1
-    maxGames = 100
+    api_key = __collectorFunctions.getRiotApi()
+    db = 'loldata'
+    daysAgo = 450
+    maxGames = 100000
     database.refreshDatabase(db)
     friendinfo.CollectFriendInfo(api_key, db)
     gameids.CollectGameIds(api_key, db, daysAgo)
