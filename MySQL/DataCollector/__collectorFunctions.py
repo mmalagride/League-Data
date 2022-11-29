@@ -29,8 +29,12 @@ def PersistentRequest(endpoint):
             if response.status_code not in (429, 404):
                 break
             else:
-                logging.warning('Maximum API requests made, please wait...')
-                time.sleep(90)
+                logging.warning('Maximum API requests made, please wait 90 seconds')
+                for i in range(90):
+                    time.sleep(1)
+                    if i % 15 == 0:
+                        logging.warning('Time elapsed: %s' % str(i))
+                logging.warning('Resuming Data collection...')
         except:
             logging.warning('Server is taking a long time to respond...')
     game_info = response.json()

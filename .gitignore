@@ -1,6 +1,6 @@
 /SQLite/db.db
 /SQLite/db.db-journal
-/SQLite/__pycache__/
-/SQLite/DataCollector/__pycache__/
-/MySQL/__pycache__/
-/MySQL/DataCollector/__pycache__/
+/SQLite/__pycache__/*
+/SQLite/DataCollector/__pycache__/*
+/MySQL/__pycache__/*
+/MySQL/DataCollector/__pycache__/*

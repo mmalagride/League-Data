@@ -23,7 +23,7 @@ if __name__ == "__main__":
     maxGames = 100000
     database.refreshDatabase(db)
     friendinfo.CollectFriendInfo(api_key, db)
-    #gameids.CollectGameIds(api_key, db, daysAgo)
+    gameids.CollectGameIds(api_key, db, daysAgo)
     gameinfo.CollectGameData(api_key, db, maxGames)
     championkill.CollectChampionKill(api_key, db, maxGames)
     preparedata.LoadFreshData('MySQL', db)

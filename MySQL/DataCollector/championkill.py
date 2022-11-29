@@ -2,6 +2,7 @@ from DataCollector import __collectorFunctions
 import logging
 import os
 import unidecode
+import time
 
 def CollectChampionKill(api_key, db, games):
     DW = __collectorFunctions.ConnectDB(db)

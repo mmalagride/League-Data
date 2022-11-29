@@ -2,6 +2,7 @@ from DataCollector import __collectorFunctions
 import logging
 import os
 import unidecode
+import time
 
 def CollectGameIds(api_key, db, daysAgo):        
     end_date = int(round(time.time()))

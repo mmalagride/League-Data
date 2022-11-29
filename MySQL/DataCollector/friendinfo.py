@@ -2,6 +2,7 @@ from DataCollector import __collectorFunctions
 import logging
 import os
 import unidecode
+import time
 
 def CollectFriendInfo(api_key,db):
     #Data from LoL API, request Docs here: https://developer.riotgames.com/apis#summoner-v4/GET_getBySummonerName  
