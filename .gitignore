@@ -4,3 +4,4 @@
 /SQLite/DataCollector/__pycache__/*
 /MySQL/__pycache__/*
 /MySQL/DataCollector/__pycache__/*
+/Logs/*
