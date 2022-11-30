@@ -1,52 +1,18 @@
-import requests
-import pyodbc
-import json
-import time
-import unidecode
+from DataCollector import __collectorFunctions
 import logging
-import sqlite3
 import os
-
-def ConnectDB():
-    logging.info("Establishing Connection to SQL DB...")
-    ReturnObject = dict()
-    connection = sqlite3.connect(os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + "\\db.db")
-    connection.row_factory = dict_factory
-    cursor     = connection.cursor()
-    ReturnObject['connection'] = connection
-    ReturnObject['cursor']     = cursor
-    logging.info("Connection Successful!")
-    return ReturnObject
-
-def PersistentRequest(endpoint):
-    while True:
-        try:
-            logging.info("Requesting information from Riot API...") 
-            response = requests.get(endpoint,headers={"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"},timeout=2)
-            if response.status_code not in (429, 404):
-                break
-            else:
-                logging.warning('Maximum API requests made, please wait...')
-                time.sleep(90)
-        except:
-            logging.warning('Server is taking a long time to respond...')
-    game_info = response.json()
-    return game_info
-
-def dict_factory(cursor, row):
-    d = {}
-    for idx, col in enumerate(cursor.description):
-        d[col[0]] = row[idx]
-    return d
+import unidecode
+import time
+import sqlite3
 
 def CollectGameData(api_key, games):
-    DW = ConnectDB()
+    DW = __collectorFunctions.ConnectDB()
     root_url = 'https://americas.api.riotgames.com'
     sql_insert = "INSERT INTO 'data.gameinfo' Values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
     DW['cursor'].execute("SELECT gameid FROM 'data.gameids' order by gameid desc limit %s;" % games)
     gameids = DW['cursor'].fetchall()
     for gameid in gameids:
-        game_info = PersistentRequest('%s/lol/match/v5/matches/%s?api_key=%s' % (root_url,gameid['gameid'],api_key))
+        game_info = __collectorFunctions.PersistentRequest('%s/lol/match/v5/matches/%s?api_key=%s' % (root_url,gameid['gameid'],api_key))
         gameId = game_info['metadata']['matchId']
         gameDuration = game_info['info']['gameDuration']
         gameStartTime = game_info['info']['gameStartTimestamp']
