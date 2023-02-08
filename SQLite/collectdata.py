@@ -17,7 +17,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     logging.info("Execution time: " + datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
     api_key = __collectorFunctions.getRiotApi()
-    daysAgo = 451
+    daysAgo = 525
     maxGames = 100000
     database.refreshDatabase()
     friendinfo.CollectFriendInfo(api_key)
