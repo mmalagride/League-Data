@@ -10,7 +10,7 @@ With a SQLite DBviewer found here: https://sqlitebrowser.org/dl/
 
 ## Accessing Riot API
 A fresh Riot API will be required to run most of the scripts found here: https://developer.riotgames.com/  
-This will need to be updated daily, as it times-out after 24hours. Once the new key is generated save the file here:
+This will need to be updated daily, as it times-out after 24hours. Once the new key is generated save the file here: <br />
 &nbsp;&nbsp;&nbsp;&nbsp;/Secrets/riot-api-key.json&nbsp;&nbsp;(Key-Value pair of "api-key": "GENERATED_KEY") 
 
 ## Before utilizing Google the following steps must be followed:  
